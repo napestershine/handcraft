@@ -1,0 +1,2887 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Food API",
+        "description": "This lists all the api for the front end UI",
+        "contact": {
+            "email": "codeistalk@gmail.com"
+        },
+        "license": {
+            "name": "Private license",
+            "url": ""
+        },
+        "version": "1.0.0"
+    },
+    "host": "api.foodpaket.com",
+    "basePath": "/api/v1/web",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/addresses": {
+            "get": {
+                "tags": [
+                    "Address"
+                ],
+                "summary": "List of all the addresses",
+                "description": "List of all the addresses in the database.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Address"
+                ],
+                "summary": "Creates a new address with given input array",
+                "description": "Store a new address in database.",
+                "operationId": "createAddress",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Address object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Address"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/addresses/{id}": {
+            "get": {
+                "tags": [
+                    "Address"
+                ],
+                "summary": "Get Address Information",
+                "description": "Get Address Information by Address ID.",
+                "operationId": "id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Address ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/Address"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "Address Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Address"
+                ],
+                "summary": "Updated address",
+                "description": "Update Address. This can only be done by the logged in user.",
+                "operationId": "updateAddress",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "the Address ID that need to be updated",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Updated address object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Address"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Address ID supplied"
+                    },
+                    "404": {
+                        "description": "Address not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Address"
+                ],
+                "summary": "Delete address",
+                "description": "This can only be done by the logged in user.",
+                "operationId": "deleteAddress",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The Address ID that needs to be deleted",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Address ID supplied"
+                    },
+                    "404": {
+                        "description": "Address not found"
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Login",
+                "description": "This can only be done by the registered user.",
+                "operationId": "loginUser",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "description": "User Email Address",
+                        "required": true,
+                        "type": "string",
+                        "format": "email"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "User Password",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Register user",
+                "description": "This can only be done by the guest user.",
+                "operationId": "registerUser",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Register(Create) new user object",
+                        "required": true,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/User"
+                                },
+                                {
+                                    "properties": {
+                                        "role": {
+                                            "type": "string",
+                                            "format": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/cities": {
+            "get": {
+                "tags": [
+                    "City"
+                ],
+                "summary": "List of all the cities of Cambodia",
+                "description": "List of all the Cambodian cities in the database.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            }
+        },
+        "/cities/{id}": {
+            "get": {
+                "tags": [
+                    "City"
+                ],
+                "summary": "Get City Information",
+                "description": "Get City Information by City ID.",
+                "operationId": "id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "City ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "City Not Found"
+                    }
+                }
+            }
+        },
+        "/configs": {
+            "get": {
+                "tags": [
+                    "Configs"
+                ],
+                "summary": "get all the configs",
+                "description": "get all configuration to be set on UI.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            }
+        },
+        "/countries": {
+            "get": {
+                "tags": [
+                    "Country"
+                ],
+                "summary": "List of all the countries",
+                "description": "List of all the countries in the database.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            }
+        },
+        "/countries/{id}": {
+            "get": {
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Get Country Information",
+                "description": "Get Country Information by Country ID.",
+                "operationId": "id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Country ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "Country Not Found"
+                    }
+                }
+            }
+        },
+        "/countries/{id}/cities": {
+            "get": {
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Get all the Cities of Country",
+                "description": "Get all the Cities of Country Information by Country ID.",
+                "operationId": "citiesByCountry",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Country ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "Country Not Found"
+                    }
+                }
+            }
+        },
+        "/cuisines": {
+            "get": {
+                "tags": [
+                    "Cuisine"
+                ],
+                "summary": "List of all the cuisines which has any restaurant attached",
+                "description": "List of all the cuisines in the database having at least one restaurant attached.\r\n           Use restaurant_id in query parameters to get the cuisines of a specific restaurant.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "restaurant_id",
+                        "in": "query",
+                        "description": "Restaurant ID",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Restaurant Not Found"
+                    }
+                }
+            }
+        },
+        "/cuisines/{id}": {
+            "get": {
+                "tags": [
+                    "Cuisine"
+                ],
+                "summary": "Get Cuisine Information",
+                "description": "Get Cuisine Information by Cuisine ID.",
+                "operationId": "id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Cuisine ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "Cuisine Not Found"
+                    }
+                }
+            }
+        },
+        "/foods": {
+            "get": {
+                "tags": [
+                    "Food"
+                ],
+                "summary": "List of all the foods",
+                "description": "List of all the foods in the database.\r\n           Use restaurant_id in query parameters to get the food of a specific restaurant.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "restaurant_id",
+                        "in": "query",
+                        "description": "Restaurant ID",
+                        "required": false,
+                        "type": "string",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "menu_id",
+                        "in": "query",
+                        "description": "Menu ID",
+                        "required": false,
+                        "type": "string",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Restaurant Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Food"
+                ],
+                "summary": "Creates a new food with given input array",
+                "description": "Store a new food in database.",
+                "operationId": "createFood",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Food object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Food"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/foods/{id}": {
+            "get": {
+                "tags": [
+                    "Food"
+                ],
+                "summary": "Get Food Information",
+                "description": "Get Food Information by Food ID.",
+                "operationId": "id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Food ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "Food Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Food"
+                ],
+                "summary": "Updated food",
+                "description": "Update User. This can only be done by the logged in user.",
+                "operationId": "updateFood",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "the Food ID that need to be updated",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Updated food object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Food"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Food ID supplied"
+                    },
+                    "404": {
+                        "description": "Food not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Food"
+                ],
+                "summary": "Delete food",
+                "description": "This can only be done by the logged in user.",
+                "operationId": "deleteFood",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The Food ID that needs to be deleted",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Food ID supplied"
+                    },
+                    "404": {
+                        "description": "Food not found"
+                    }
+                }
+            }
+        },
+        "/menus": {
+            "get": {
+                "tags": [
+                    "Menu"
+                ],
+                "summary": "List of all the menus",
+                "description": "List of all the menus in the database.\r\n           Use restaurant_id in query parameters to get the menu of a specific restaurant.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "restaurant_id",
+                        "in": "query",
+                        "description": "Restaurant ID",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Restaurant Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Menu"
+                ],
+                "summary": "Creates a new menu with given input array",
+                "description": "Store a new menu in database.",
+                "operationId": "createMenu",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Menu object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Menu"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/menus/{id}": {
+            "get": {
+                "tags": [
+                    "Menu"
+                ],
+                "summary": "Get Menu Information",
+                "description": "Get Menu Information by Menu ID.",
+                "operationId": "id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Menu ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "Menu Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Menu"
+                ],
+                "summary": "Updated menu",
+                "description": "Update User. This can only be done by the logged in user.",
+                "operationId": "updateMenu",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "the Menu ID that need to be updated",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Updated menu object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Menu"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Menu ID supplied"
+                    },
+                    "404": {
+                        "description": "Menu not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Menu"
+                ],
+                "summary": "Delete menu",
+                "description": "This can only be done by the logged in user.",
+                "operationId": "deleteMenu",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The Menu ID that needs to be deleted",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Menu ID supplied"
+                    },
+                    "404": {
+                        "description": "Menu not found"
+                    }
+                }
+            }
+        },
+        "/orders": {
+            "get": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "List of all the orders",
+                "description": "List of all the orders in the database.\r\n           Use restaurant_id in query parameters to get the orders of a specific restaurant.\r\n           If no query parameters are given, it will give the orders of the logged in user.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "restaurant_id",
+                        "in": "query",
+                        "description": "Restaurant ID",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "404": {
+                        "description": "Restaurant Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Creates a new order with given input array",
+                "description": "Store a new order in database.",
+                "operationId": "createOrder",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Order object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Order"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/orders/{id}": {
+            "get": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Get Order Information",
+                "description": "Get Order Information by Order ID.",
+                "operationId": "id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Order ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "Order Not Found"
+                    }
+                }
+            }
+        },
+        "/provinces": {
+            "get": {
+                "tags": [
+                    "Province"
+                ],
+                "summary": "List of all the provinces of Cambodia",
+                "description": "List of all the Cambodian provinces in the database.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            }
+        },
+        "/provinces/{id}": {
+            "get": {
+                "tags": [
+                    "Province"
+                ],
+                "summary": "Get Province Information",
+                "description": "Get Province Information by Province ID.",
+                "operationId": "id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Province ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "Province Not Found"
+                    }
+                }
+            }
+        },
+        "/provinces/{id}/cities": {
+            "get": {
+                "tags": [
+                    "Province"
+                ],
+                "summary": "Get all the Cities of Province",
+                "description": "Get all the Cities of Province Information by Province ID.",
+                "operationId": "citiesByProvince",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Province ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "Province Not Found"
+                    }
+                }
+            }
+        },
+        "/restaurants": {
+            "get": {
+                "tags": [
+                    "Restaurant"
+                ],
+                "summary": "List of all the restaurants",
+                "description": "List of all the restaurants in the database.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "tag_id",
+                        "in": "query",
+                        "description": "Tag ID",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "rating",
+                        "in": "query",
+                        "description": "Ratings",
+                        "required": false,
+                        "type": "string",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "order_by",
+                        "in": "query",
+                        "description": "Order By popular/latest ASC",
+                        "required": false,
+                        "type": "string",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Per page data rows count needed",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Restaurant"
+                ],
+                "summary": "Creates a new restaurant with given input array",
+                "description": "Store a new restaurant in database.",
+                "operationId": "createRestaurant",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Restaurant object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Restaurant"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/restaurants/{id}": {
+            "get": {
+                "tags": [
+                    "Restaurant"
+                ],
+                "summary": "Get Restaurant Information",
+                "description": "Get Restaurant Information by Restaurant ID.",
+                "operationId": "id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Restaurant ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "Restaurant Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Restaurant"
+                ],
+                "summary": "Updated restaurant",
+                "description": "Update User. This can only be done by the logged in user.",
+                "operationId": "updateRestaurant",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "the Restaurant ID that need to be updated",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Updated restaurant object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Restaurant"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Restaurant ID supplied"
+                    },
+                    "404": {
+                        "description": "Restaurant not found"
+                    }
+                }
+            }
+        },
+        "/restaurant/{restaurant_id}/photos": {
+            "get": {
+                "tags": [
+                    "Restaurant Photo"
+                ],
+                "summary": "List of all the restaurant photos",
+                "description": "List of all the restaurant photos of the restaurant in the database.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "restaurant_id",
+                        "in": "path",
+                        "description": "Restaurant ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Restaurant Photo"
+                ],
+                "summary": "Creates a new restaurant photo with given input array for a restaurant",
+                "description": "Store a new restaurant photo in database.",
+                "operationId": "createRestaurantPhoto",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "restaurant_id",
+                        "in": "path",
+                        "description": "Restaurant ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Restaurant Photo object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/RestaurantPhoto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/restaurant/{restaurant_id}/photos/{id}": {
+            "get": {
+                "tags": [
+                    "Restaurant Photo"
+                ],
+                "summary": "Get Restaurant Photo Information",
+                "description": "Get Restaurant Photo Information by Restaurant ID and Restaurant Photo ID.",
+                "operationId": "id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "restaurant_id",
+                        "in": "path",
+                        "description": "Restaurant ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Restaurant Photo ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "Restaurant Photo Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Restaurant Photo"
+                ],
+                "summary": "Delete restaurant photo",
+                "description": "This can only be done by the logged in user.",
+                "operationId": "deleteRestaurantPhoto",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "restaurant_id",
+                        "in": "path",
+                        "description": "Restaurant ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The Restaurant Photo ID that needs to be deleted",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Restaurant ID and Restaurant Photo ID supplied"
+                    },
+                    "404": {
+                        "description": "Restaurant Photo not found"
+                    }
+                }
+            }
+        },
+        "/restaurant/{restaurant_id}/reviews": {
+            "get": {
+                "tags": [
+                    "Review"
+                ],
+                "summary": "List of all the restaurant reviews",
+                "description": "List of all the restaurant reviews of the restaurant in the database.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "restaurant_id",
+                        "in": "path",
+                        "description": "Restaurant ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Creates a new restaurant review with given input array for a restaurant",
+                "description": "Store a new restaurant review in database.",
+                "operationId": "createReview",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "restaurant_id",
+                        "in": "path",
+                        "description": "Restaurant ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Review object along with an input array of ReviewPhoto objects",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Review"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/orders/{order_id}/reviews": {
+            "get": {
+                "tags": [
+                    "Review"
+                ],
+                "summary": "List of all the order reviews",
+                "description": "List of all the order reviews of the order in the database.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "description": "Order ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            }
+        },
+        "/restaurant/{restaurant_id}/reviews/{id}": {
+            "get": {
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Get Restaurant Review Information",
+                "description": "Get Restaurant Review Information by Restaurant ID and Review ID.",
+                "operationId": "id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "restaurant_id",
+                        "in": "path",
+                        "description": "Restaurant ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Review ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "Review Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Delete restaurant review",
+                "description": "Only Restaurant Review can be deleted, not Order Review. This can only be done by the logged in user.",
+                "operationId": "deleteReview",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "restaurant_id",
+                        "in": "path",
+                        "description": "Restaurant ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The Review ID that needs to be deleted",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Restaurant ID and Review ID supplied"
+                    },
+                    "404": {
+                        "description": "Review not found"
+                    }
+                }
+            }
+        },
+        "/reviews/{review_id}/reply": {
+            "get": {
+                "tags": [
+                    "Review Reply"
+                ],
+                "summary": "List of all the review replies",
+                "description": "List of all the review replies of the review in the database.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "review_id",
+                        "in": "path",
+                        "description": "Review ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Review Reply"
+                ],
+                "summary": "Creates a new review reply with given input array for a review",
+                "description": "Store a new review reply in database.",
+                "operationId": "createReviewReply",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "review_id",
+                        "in": "path",
+                        "description": "Review ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Review Reply object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ReviewReply"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/reviews/{review_id}/reply/{id}": {
+            "delete": {
+                "tags": [
+                    "Review Reply"
+                ],
+                "summary": "Delete review reply",
+                "description": "This can only be done by the logged in user.",
+                "operationId": "deleteReviewReply",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "review_id",
+                        "in": "path",
+                        "description": "Review ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The Review Reply ID that needs to be deleted",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Review ID and Review Reply ID supplied"
+                    },
+                    "404": {
+                        "description": "Review Reply not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            }
+        },
+        "/search/restaurants": {
+            "get": {
+                "tags": [
+                    "Restaurant"
+                ],
+                "summary": "Search all the restaurants by query parameters",
+                "description": "Search and fetch the list of all the restaurants in the database by search parameters.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Restaurant/Food name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "description": "City name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "order_by",
+                        "in": "query",
+                        "description": "Order By name/id ASC",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Per page data rows count needed",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/temp/restaurants": {
+            "get": {
+                "tags": [
+                    "Temporary Restaurant"
+                ],
+                "summary": "List of all the temporary restaurants",
+                "description": "List of all the temporary restaurants in the database.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Temporary Restaurant"
+                ],
+                "summary": "Creates a new temporary restaurant with given input array",
+                "description": "Store a new temporary restaurant in database.",
+                "operationId": "createTempRestaurant",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "TempRestaurant object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/TempRestaurant"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/temp/restaurants/{id}": {
+            "get": {
+                "tags": [
+                    "Temporary Restaurant"
+                ],
+                "summary": "Get TempRestaurant Information",
+                "description": "Get TempRestaurant Information by TempRestaurant ID.",
+                "operationId": "id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Temporary Restaurant ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "Temporary Restaurant Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Temporary Restaurant"
+                ],
+                "summary": "Updated temporary restaurant",
+                "description": "Update User. This can only be done by the logged in user.",
+                "operationId": "updateTempRestaurant",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "the Temporary Restaurant ID that need to be updated",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Updated temporary restaurant object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/TempRestaurant"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Temporary Restaurant ID supplied"
+                    },
+                    "404": {
+                        "description": "Temporary Restaurant not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Temporary Restaurant"
+                ],
+                "summary": "Delete temporary restaurant",
+                "description": "This can only be done by the logged in user.",
+                "operationId": "deleteTempRestaurant",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The Temporary Restaurant ID that needs to be deleted",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid Temporary Restaurant ID supplied"
+                    },
+                    "404": {
+                        "description": "Temporary Restaurant not found"
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get User Information",
+                "description": "Get User Information by User ID.",
+                "operationId": "id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "User Not Found"
+                    }
+                }
+            }
+        },
+        "/users/{id}/orders": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get User Orders Information",
+                "description": "Get User Orders Information by User ID.",
+                "operationId": "userOrders",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "User Not Found"
+                    }
+                }
+            }
+        },
+        "/users/{id}/reviews": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get User Reviews Information",
+                "description": "Get User Reviews Information by User ID.",
+                "operationId": "userReviews",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "400": {
+                        "description": "Invalid parameter value"
+                    },
+                    "404": {
+                        "description": "User Not Found"
+                    }
+                }
+            }
+        },
+        "/tags": {
+            "get": {
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "List of all the tags",
+                "description": "List of all the tags in the database.",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Address": {
+            "required": [
+                "user_id",
+                "province_id",
+                "country_id",
+                "city_id",
+                "name",
+                "phone"
+            ],
+            "properties": {
+                "user_id": {
+                    "description": "The parent user identifier.",
+                    "type": "integer"
+                },
+                "province_id": {
+                    "description": "The province identifier for the address.",
+                    "type": "integer"
+                },
+                "country_id": {
+                    "description": "The country identifier for the address.",
+                    "type": "integer"
+                },
+                "city_id": {
+                    "description": "The city identifier for the address.",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "The name of the address.",
+                    "type": "string",
+                    "maxLength": 30
+                },
+                "phone": {
+                    "description": "The contact phone number for the address.",
+                    "type": "string",
+                    "maxLength": 20
+                },
+                "full_address": {
+                    "description": "The full address.",
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Address"
+            }
+        },
+        "City": {
+            "required": [
+                "name",
+                "province_id",
+                "country_id"
+            ],
+            "properties": {
+                "name": {
+                    "description": "The name of the city.",
+                    "type": "string"
+                },
+                "slug": {
+                    "description": "The slug to show in urls for SEO purpose.",
+                    "type": "string"
+                },
+                "province_id": {
+                    "description": "The province identifier for the city.",
+                    "type": "integer"
+                },
+                "country_id": {
+                    "description": "The country identifier for the city.",
+                    "type": "integer"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "City"
+            }
+        },
+        "Config": {
+            "required": [
+                "key",
+                "value"
+            ],
+            "properties": {
+                "key": {
+                    "description": "The key string for configuration.",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "The value of the configuration.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "The description of the configuration.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "The type of the configuration.",
+                    "type": "enum={1,2}"
+                },
+                "status": {
+                    "description": "The status of the configuration.",
+                    "type": "integer"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Config"
+            }
+        },
+        "Country": {
+            "required": [
+                "name",
+                "country_code"
+            ],
+            "properties": {
+                "name": {
+                    "description": "The common name of the country.",
+                    "type": "string"
+                },
+                "full_name": {
+                    "description": "The full name of the country.",
+                    "type": "string"
+                },
+                "capital": {
+                    "description": "The capital of the country.",
+                    "type": "string"
+                },
+                "citizenship": {
+                    "description": "The citizenship of the country.",
+                    "type": "string"
+                },
+                "country_code": {
+                    "description": "The country code of the country.",
+                    "type": "string",
+                    "maxLength": 3
+                },
+                "currency": {
+                    "description": "The currency of the country.",
+                    "type": "string"
+                },
+                "currency_code": {
+                    "description": "The currency code of the country.",
+                    "type": "string"
+                },
+                "currency_sub_unit": {
+                    "description": "The currency sub unit of the country.",
+                    "type": "string"
+                },
+                "region_code": {
+                    "description": "The region code of the country.",
+                    "type": "string",
+                    "maxLength": 3
+                },
+                "sub_region_code": {
+                    "description": "The sub region code of the country.",
+                    "type": "string",
+                    "maxLength": 3
+                },
+                "iso_3166_2": {
+                    "description": "The iso_3166_2 standard country code of the country.",
+                    "type": "string",
+                    "maxLength": 2
+                },
+                "iso_3166_3": {
+                    "description": "The iso_3166_3 standard country code of the country.",
+                    "type": "string",
+                    "maxLength": 3
+                },
+                "eea": {
+                    "description": "Is the country belongs to the European Economic Area(EEA)? 1 for TRUE, 0 for FALSE",
+                    "type": "integer"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Country"
+            }
+        },
+        "Cuisine": {
+            "properties": {
+                "name": {
+                    "description": "The name of the cuisine.",
+                    "type": "string"
+                },
+                "slug": {
+                    "description": "The slug to show in urls for SEO purpose.",
+                    "type": "string"
+                },
+                "image": {
+                    "description": "The image of the cuisine.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "The description of the cuisine.",
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Cuisine"
+            }
+        },
+        "Currency": {
+            "required": [
+                "title",
+                "code",
+                "value"
+            ],
+            "properties": {
+                "title": {
+                    "description": "The title of the currency.",
+                    "type": "string"
+                },
+                "symbol_left": {
+                    "description": "The left hand side symbol of the currency.",
+                    "type": "string",
+                    "maxLength": 12
+                },
+                "symbol_right": {
+                    "description": "The right hand side symbol of the currency.",
+                    "type": "string",
+                    "maxLength": 12
+                },
+                "code": {
+                    "description": "The code of the currency.",
+                    "type": "string",
+                    "maxLength": 3
+                },
+                "decimal_point": {
+                    "description": "The decimal point of the currency.",
+                    "type": "string"
+                },
+                "thousand_point": {
+                    "description": "The thousand point of the currency.",
+                    "type": "string"
+                },
+                "decimal_place": {
+                    "description": "The decimal place of currency.",
+                    "type": "double"
+                },
+                "value": {
+                    "description": "The value of currency.",
+                    "type": "double"
+                },
+                "status": {
+                    "description": "The status of currency.",
+                    "type": "integer"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Currency"
+            }
+        },
+        "Food": {
+            "required": [
+                "name",
+                "price",
+                "image",
+                "description",
+                "food_category_id",
+                "restaurant_id"
+            ],
+            "properties": {
+                "name": {
+                    "description": "The name of the food.",
+                    "type": "string"
+                },
+                "slug": {
+                    "description": "The slug to show in urls for SEO purpose.",
+                    "type": "string"
+                },
+                "price": {
+                    "description": "The price of the food.",
+                    "type": "string"
+                },
+                "image": {
+                    "description": "The image of the food.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "The description of the food.",
+                    "type": "string"
+                },
+                "food_category_id": {
+                    "description": "The food category identifier for the food.",
+                    "type": "integer"
+                },
+                "restaurant_id": {
+                    "description": "The restaurant identifier for the food.",
+                    "type": "integer"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Food"
+            }
+        },
+        "FoodCategory": {
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "description": "The name of the food category.",
+                    "type": "string"
+                },
+                "slug": {
+                    "description": "The slug to show in urls for SEO purpose.",
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "FoodCategory"
+            }
+        },
+        "Invoice": {
+            "type": "object",
+            "xml": {
+                "name": "Invoice"
+            }
+        },
+        "Language": {
+            "required": [
+                "name",
+                "code"
+            ],
+            "properties": {
+                "name": {
+                    "description": "The name of the language.",
+                    "type": "string"
+                },
+                "code": {
+                    "description": "The code of the language.",
+                    "type": "string"
+                },
+                "slug": {
+                    "description": "The slug to show in urls for SEO purpose.",
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Language"
+            }
+        },
+        "Menu": {
+            "required": [
+                "name",
+                "menu_category_id",
+                "restaurant_id"
+            ],
+            "properties": {
+                "name": {
+                    "description": "The name of the menu.",
+                    "type": "string"
+                },
+                "slug": {
+                    "description": "The slug to show in urls for SEO purpose.",
+                    "type": "string"
+                },
+                "menu_category_id": {
+                    "description": "The menu category identifier for the menu.",
+                    "type": "integer"
+                },
+                "restaurant_id": {
+                    "description": "The restaurant identifier for the menu.",
+                    "type": "integer"
+                },
+                "count": {
+                    "description": "The food items count of the menu.",
+                    "type": "integer"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Menu"
+            }
+        },
+        "MenuCategory": {
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "description": "The name of the menu category.",
+                    "type": "string"
+                },
+                "slug": {
+                    "description": "The slug to show in urls for SEO purpose.",
+                    "type": "string"
+                },
+                "count": {
+                    "description": "The food items count of the menu category.",
+                    "type": "integer"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "MenuCategory"
+            }
+        },
+        "Order": {
+            "required": [
+                "user_id",
+                "restaurant_id",
+                "address_id"
+            ],
+            "properties": {
+                "user_id": {
+                    "description": "The user identifier for the order.",
+                    "type": "integer"
+                },
+                "restaurant_id": {
+                    "description": "The restaurant identifier for the order.",
+                    "type": "number"
+                },
+                "address_id": {
+                    "description": "The address identifier for the order.",
+                    "type": "integer"
+                },
+                "servicetax": {
+                    "description": "The service tax on the order.",
+                    "type": "string"
+                },
+                "othertax": {
+                    "description": "The other taxes on the order.",
+                    "type": "string"
+                },
+                "delivery_cost": {
+                    "description": "The delivery cost on the order.",
+                    "type": "string"
+                },
+                "discount": {
+                    "description": "The discount on the order.",
+                    "type": "string"
+                },
+                "total": {
+                    "description": "The total amount of the order.",
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Order"
+            }
+        },
+        "OrderItems": {
+            "required": [
+                "order_id",
+                "food_id"
+            ],
+            "properties": {
+                "order_id": {
+                    "description": "The order identifier for the order food item.",
+                    "type": "integer"
+                },
+                "food_id": {
+                    "description": "The food identifier for the order food item.",
+                    "type": "integer"
+                },
+                "quantity": {
+                    "description": "The quantity of the order food item.",
+                    "type": "integer"
+                },
+                "price": {
+                    "description": "The price of the order food item.",
+                    "type": "string"
+                },
+                "comment": {
+                    "description": "The customer comment for the order food item.",
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "OrderItems"
+            }
+        },
+        "OrderStatus": {
+            "required": [
+                "status",
+                "order_id"
+            ],
+            "properties": {
+                "order_id": {
+                    "description": "The order identifier for the order status.",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "The order status of the order.",
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "OrderStatus"
+            }
+        },
+        "Payment": {
+            "type": "object",
+            "xml": {
+                "name": "Payment"
+            }
+        },
+        "PaymentStatus": {
+            "type": "object",
+            "xml": {
+                "name": "PaymentStatus"
+            }
+        },
+        "Province": {
+            "required": [
+                "name",
+                "country_id"
+            ],
+            "properties": {
+                "name": {
+                    "description": "The name of the province.",
+                    "type": "string"
+                },
+                "code": {
+                    "description": "The code of the province.",
+                    "type": "string"
+                },
+                "slug": {
+                    "description": "The slug to show in urls for SEO purpose.",
+                    "type": "string"
+                },
+                "country_id": {
+                    "description": "The country identifier for the province.",
+                    "type": "integer"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Province"
+            }
+        },
+        "Reservation": {
+            "type": "object",
+            "xml": {
+                "name": "Reservation"
+            }
+        },
+        "Restaurant": {
+            "required": [
+                "name",
+                "user_id",
+                "city_id"
+            ],
+            "properties": {
+                "name": {
+                    "description": "The name of the restaurant.",
+                    "type": "string",
+                    "maxLength": 50
+                },
+                "slug": {
+                    "description": "The slug to show in urls for SEO purpose.",
+                    "type": "string",
+                    "maxLength": 50
+                },
+                "user_id": {
+                    "description": "The user identifier for the restaurant.",
+                    "type": "integer"
+                },
+                "city_id": {
+                    "description": "The city identifier for the restaurant.",
+                    "type": "integer"
+                },
+                "province_id": {
+                    "description": "The province identifier for the restaurant.",
+                    "type": "integer"
+                },
+                "country_id": {
+                    "description": "The country identifier for the restaurant.",
+                    "type": "integer"
+                },
+                "street": {
+                    "description": "The street of the restaurant.",
+                    "type": "string"
+                },
+                "full_address": {
+                    "description": "The full address of the restaurant.",
+                    "type": "string"
+                },
+                "google_location": {
+                    "description": "The Google Map location of the restaurant.",
+                    "type": "string"
+                },
+                "latitude_longitude": {
+                    "description": "The latitude and longitude of the restaurant.",
+                    "type": "json"
+                },
+                "phone": {
+                    "description": "The contact phone number of the restaurant.",
+                    "type": "string",
+                    "maxLength": 20
+                },
+                "email": {
+                    "description": "The email of the restaurant.",
+                    "type": "string",
+                    "maxLength": 50
+                },
+                "logo": {
+                    "description": "The logo of the restaurant.",
+                    "type": "string",
+                    "maxLength": 80
+                },
+                "description": {
+                    "description": "The description of the restaurant.",
+                    "type": "string"
+                },
+                "opening_time": {
+                    "description": "The opening time of the restaurant.",
+                    "type": "json"
+                },
+                "delivery_fee": {
+                    "description": "The delivery fee of the restaurant.",
+                    "type": "double"
+                },
+                "starting_price": {
+                    "description": "The starting price of the restaurant.",
+                    "type": "double"
+                },
+                "rating": {
+                    "description": "The rating of the restaurant (out of 5).",
+                    "type": "double"
+                },
+                "status": {
+                    "description": "The status of the restaurant.",
+                    "type": "integer"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Restaurant"
+            }
+        },
+        "RestaurantPhoto": {
+            "required": [
+                "user_id",
+                "restaurant_id",
+                "path"
+            ],
+            "properties": {
+                "user_id": {
+                    "description": "The user identifier for the restaurant photo.",
+                    "type": "integer"
+                },
+                "restaurant_id": {
+                    "description": "The restaurant identifier for the restaurant photo.",
+                    "type": "integer"
+                },
+                "path": {
+                    "description": "The image path of the restaurant photo.",
+                    "type": "string",
+                    "maxLength": 80
+                },
+                "thumb_big_path": {
+                    "description": "The big thumbnail path of the restaurant photo.",
+                    "type": "string",
+                    "maxLength": 80
+                },
+                "thumb_small_path": {
+                    "description": "The small thumbnail path of the restaurant photo.",
+                    "type": "string",
+                    "maxLength": 80
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "RestaurantPhoto"
+            }
+        },
+        "Review": {
+            "required": [
+                "user_id",
+                "restaurant_id",
+                "body",
+                "rating"
+            ],
+            "properties": {
+                "user_id": {
+                    "description": "The user identifier for the review.",
+                    "type": "integer"
+                },
+                "restaurant_id": {
+                    "description": "The restaurant identifier for the review.",
+                    "type": "integer"
+                },
+                "order_id": {
+                    "description": "The order identifier for the review.",
+                    "type": "integer"
+                },
+                "body": {
+                    "description": "The review text body of the review.",
+                    "type": "string"
+                },
+                "rating": {
+                    "description": "The ratings of the review (out of 5).",
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Review"
+            }
+        },
+        "ReviewPhoto": {
+            "required": [
+                "user_id",
+                "restaurant_id",
+                "review_id",
+                "path"
+            ],
+            "properties": {
+                "user_id": {
+                    "description": "The user identifier for the review photo.",
+                    "type": "integer"
+                },
+                "restaurant_id": {
+                    "description": "The restaurant identifier for the review photo.",
+                    "type": "integer"
+                },
+                "review_id": {
+                    "description": "The review identifier for the review photo.",
+                    "type": "integer"
+                },
+                "path": {
+                    "description": "The image path of the review photo.",
+                    "type": "string",
+                    "maxLength": 80
+                },
+                "thumb_big_path": {
+                    "description": "The big thumbnail path of the review photo.",
+                    "type": "string",
+                    "maxLength": 80
+                },
+                "thumb_small_path": {
+                    "description": "The small thumbnail path of the review photo.",
+                    "type": "string",
+                    "maxLength": 80
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "ReviewPhoto"
+            }
+        },
+        "ReviewReply": {
+            "required": [
+                "user_id",
+                "restaurant_id",
+                "review_id",
+                "body"
+            ],
+            "properties": {
+                "user_id": {
+                    "description": "The user identifier for the review reply.",
+                    "type": "integer"
+                },
+                "restaurant_id": {
+                    "description": "The restaurant identifier for the review reply.",
+                    "type": "integer"
+                },
+                "review_id": {
+                    "description": "The review identifier for the review reply.",
+                    "type": "integer"
+                },
+                "body": {
+                    "description": "The review text body of the review reply.",
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "ReviewReply"
+            }
+        },
+        "Role": {
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "description": "The name of the role.",
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Role"
+            }
+        },
+        "Table": {
+            "type": "object",
+            "xml": {
+                "name": "Table"
+            }
+        },
+        "Tag": {
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "description": "The name of the tag.",
+                    "type": "string"
+                },
+                "slug": {
+                    "description": "The slug to show in urls for SEO purpose.",
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Tag"
+            }
+        },
+        "TempRestaurant": {
+            "required": [
+                "name",
+                "restaurant_name",
+                "phone",
+                "address"
+            ],
+            "properties": {
+                "user_id": {
+                    "description": "The user identifier for the temporary restaurant.",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "The name of the temporary restaurant.",
+                    "type": "string"
+                },
+                "phone": {
+                    "description": "The contact phone number of the temporary restaurant.",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "The email address of the temporary restaurant.",
+                    "type": "string"
+                },
+                "restaurant_name": {
+                    "description": "The restaurant name of the temporary restaurant.",
+                    "type": "string"
+                },
+                "address": {
+                    "description": "The address of the temporary restaurant.",
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "TempRestaurant"
+            }
+        },
+        "User": {
+            "required": [
+                "first_name",
+                "last_name",
+                "email",
+                "password",
+                "sex"
+            ],
+            "properties": {
+                "first_name": {
+                    "description": "The first name of the user.",
+                    "type": "string"
+                },
+                "middle_name": {
+                    "description": "The middle name of the user.",
+                    "type": "string"
+                },
+                "last_name": {
+                    "description": "The last name of the user.",
+                    "type": "string"
+                },
+                "phone": {
+                    "description": "The contact phone of the user.",
+                    "type": "string"
+                },
+                "avatar": {
+                    "description": "The avatar of the user.",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "The email address of the user.",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "The password of the user.",
+                    "type": "string"
+                },
+                "username": {
+                    "description": "The username of the user.",
+                    "type": "string"
+                },
+                "sex": {
+                    "description": "The gender of the user.",
+                    "type": "enum={'male', 'female', 'other'}"
+                },
+                "dob": {
+                    "description": "The DOB of the user.",
+                    "type": "date"
+                },
+                "lang_id": {
+                    "description": "The default language identifier for the user.",
+                    "type": "integer"
+                },
+                "last_ip": {
+                    "description": "The last IP address of the user.",
+                    "type": "string"
+                },
+                "remark": {
+                    "description": "Any remark for the user.",
+                    "type": "string"
+                },
+                "is_active": {
+                    "description": "Is user active? 1 for TRUE, 0 for FALSE",
+                    "type": "integer"
+                },
+                "is_blocked": {
+                    "description": "Is user blocked? 1 for TRUE, 0 for FALSE",
+                    "type": "integer"
+                },
+                "blocked_by": {
+                    "description": "The Admin ID who blocked the user.",
+                    "type": "integer"
+                },
+                "activated_by": {
+                    "description": "The Admin ID who activated the user.",
+                    "type": "integer"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "User"
+            }
+        }
+    },
+    "securityDefinitions": {
+        "passport": {
+            "type": "oauth2",
+            "flow": "password",
+            "tokenUrl": "/ oauth/token",
+            "scopes": {}
+        }
+    },
+    "externalDocs": {
+        "description": "More information can be added here",
+        "url": ""
+    }
+}
