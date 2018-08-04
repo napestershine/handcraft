@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\helpers\ErrorResponse;
-use App\Http\Controllers\Docs\AuthController as Auth;
+use App\Http\Controllers\Docs\AuthsDocController as Auth;
 use App\Models\User;
 use App\Notifications\UserHasRegistered;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\App;
  * Class RegisterController
  * @package App\Http\Controllers\Auth\User
  */
-class AuthController extends Auth
+class AuthsDocController extends Auth
 {
     use ErrorResponse;
     /**

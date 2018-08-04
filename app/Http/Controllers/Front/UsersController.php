@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Http\Controllers\Docs\UserController;
+use App\Http\Controllers\Docs\UsersDocController;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
-class UsersController extends UserController
+class UsersController extends UsersDocController
 {
 
 

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class OrdersTableSeeder extends Seeder
+class CategoriesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -10,8 +10,8 @@ class OrdersTableSeeder extends Seeder
      * @return void
      */
     public function run() {
-        if (\Schema::hasTable('orders')) {
-            factory(App\Models\Order::class)->times(50)->create();
+        if (\Schema::hasTable('categories')) {
+            factory(App\Models\Job::class)->times(50)->create();
         }
     }
 }

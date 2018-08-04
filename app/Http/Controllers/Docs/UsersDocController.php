@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Docs;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use Illuminate\Http\JsonResponse;
 
-abstract class UserController extends Controller
+abstract class UsersDocController extends BaseController
 {
     /**
      * @SWG\Get(
@@ -70,6 +70,6 @@ abstract class UserController extends Controller
      *     )
      * )
      */
-    abstract public function getUserOrders($id);
+    abstract public function getUserJobs($id);
 
 }

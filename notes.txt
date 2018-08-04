@@ -1,0 +1,23 @@
+# Task
+1. Category
+2. City
+3. Job
+4. User
+
+A. Make crud apis for category
+B. Cities crud
+C. Jobs crud
+    1. a job belongs to a user
+    2. An authenticated user can add a new job
+
+
+
+Handle validation. So need to do it properly
+
+A user who posted job can not see, others can see
+Jobs will expire after 30 days
+Jobs can be filtering by service and region
+Add swagger docs
+Write test cases so follow TDD approach
+Add run steps in Readme
+Put code on github

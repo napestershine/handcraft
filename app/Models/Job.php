@@ -22,18 +22,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Job whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Job whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Job whereUpdatedAt($value)
  * @property \Carbon\Carbon|null $deleted_at
  * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Order onlyTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Job onlyTrashed()
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Job whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Job withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Job withoutTrashed()
  */
-class Order extends Model
+class Job extends Model
 {
     use SoftDeletes;
 
