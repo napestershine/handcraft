@@ -11,16 +11,3 @@ $factory->define(\App\Models\User::class, function (Faker $faker) {
         'remember_token' => str_random(10)
     ];
 });
-
-$factory->define(\App\Models\Job::class, function (Faker $faker) {
-    $statuses = ['pending', 'Confirmed', 'In Progress', 'Completed'];
-    return [
-        'user_id' => function () {
-            return \App\Models\User::inRandomOrder()->first()->id;
-        },
-        'status' => $statuses[array_rand($statuses)],
-        'pick_time' => $faker->dateTime,
-        'source' => $faker->streetAddress,
-        'destination' => $faker->streetAddress,
-    ];
-});

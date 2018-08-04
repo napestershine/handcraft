@@ -35,7 +35,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Job extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Validator;
 
     /**
      * The attributes that are mass assignable
@@ -54,6 +54,18 @@ class Job extends Model
     protected $dates = ['deleted_at'];
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
+
+    /**
+     * Validation rules for user
+     *
+     * @var array
+     */
+    protected $rules = [
+        'name' => 'bail|required|max:255',
+        'email' => 'bail|required|unique:users|max:255',
+        'password' => 'bail|required|max:255',
+        'phone' => 'required|unique:users|max:255',
+    ];
 
     /**
      * Get the user that owns this order.

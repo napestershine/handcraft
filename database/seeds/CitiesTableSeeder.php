@@ -10,8 +10,8 @@ class CitiesTableSeeder extends Seeder
      * @return void
      */
     public function run() {
-        if (\Schema::hasTable('jobs')) {
-            factory(App\Models\Job::class)->times(50)->create();
+        if (\Schema::hasTable('cities')) {
+            factory(App\Models\City::class)->times(50)->create();
         }
     }
 }
