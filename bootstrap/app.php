@@ -36,6 +36,7 @@ $app->configure('auth');
 $app->configure('cors');
 $app->configure('passport');
 $app->configure('api');
+$app->configure('database');
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings

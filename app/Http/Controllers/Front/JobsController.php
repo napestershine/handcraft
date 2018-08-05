@@ -19,37 +19,49 @@ class JobsController extends JobsDocController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(): JsonResponse {
-        $user = $this->getUser();
-        $addresses = $user->addresses()->orderBy('name')->get();
-        return response()->json(['status'=>0,'msg'=>'success','data'=>$addresses], 200);
+    public function index(): JsonResponse
+    {
+        try {
+            $statusCode = 200;
+            //  $response = Job::paginate(20);
+            $response = Job::all();
+        } catch (\Exception $e) {
+            $statusCode = 500;
+            $response = ['error' => 'Internal error'];
+        }
+
+        return response()->json($response, $statusCode);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request): JsonResponse {
-
-        $user = $this->getUser();
-
-        $data = $this->validate($request, [
-            'country_id' => 'required|integer',
-            'province_id' => 'required|integer',
-            'city_id' => 'required|integer',
-            'name' => 'required|max:30',
-            'phone' => 'required|max:20',
-            'full_address' => 'max:255',
-        ]);
-        $data['user_id']=$user->id;
-
-        if(Address::create($data)){
-            return response()->json(['status'=>0,'msg'=>'success'], 200);
-        } else {
-            return response()->json(['status'=>__LINE__,'msg'=>'Database create address error'], 500);
+    public function store(Request $request): JsonResponse
+    {
+        try {
+            $statusCode = 201;
+            $city = new Job();
+            $this->validate($request, Job::getRules(), Job::getMessages());
+            $data = $request->all();
+            $data['slug'] = str_replace(' ', '-', strtolower($data['name']));
+            $city->fill($data);
+            $city->save();
+            $response = $city;
+        } catch (ValidationException $e) {
+            $statusCode = 400;
+            $response = ['error' => 'Validation Error', 'message' => $e->getMessage()];
+        } catch (\PDOException $e) {
+            $statusCode = 400;
+            $response = ['error' => 'Database Error', 'message' => $e->getMessage()];
+        } catch (\Exception $e) {
+            $statusCode = 500;
+            $response = ['error' => 'Internal error'];
         }
+
+        return response()->json($response, $statusCode);
     }
 
     /**
@@ -58,40 +70,57 @@ class JobsController extends JobsDocController
      * @param  $address_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($address_id): JsonResponse {
-        $address = Address::find($address_id);
-        if (empty($address->id)) {
-            return response()->json(['status'=>__LINE__,'msg'=>'Address not found'], 404);
+    public function show($id)
+    {
+        try {
+            $statusCode = 200;
+            $response = Job::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            $statusCode = 404;
+            $response = ['error' => 'Job not found'];
+        } catch (\Exception $e) {
+            $statusCode = 500;
+            $response = ['error' => 'Internal error'];
         }
-        return response()->json(['status'=>0,'msg'=>'success','data'=>$address], 200);
+        return response()->json($response, $statusCode);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @param  $address_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request,$address_id): JsonResponse {
-
-        $user = $this->getUser();
-        $data = $this->validate($request,[
-            'country_id' => 'integer',
-            'province_id' => 'integer',
-            'city_id' => 'integer',
-            'name' => 'max:30',
-            'phone' => 'max:20',
-            'full_address' => 'max:255',
-        ]);
-        $address = Address::where('user_id', $user->id)->where('id',$address_id)->first();
-        if (empty($address->id)) {
-            return response()->json(['status'=>__LINE__,'msg'=>'Address not found'], 404);
-        } else if($address->update($data)){
-            return response()->json(['status'=>0,'msg'=>'success'], 200);
-        } else {
-            return response()->json(['status'=>__LINE__,'msg'=>'Database update address error'], 500);
+    public function update(Request $request, $id)
+    {
+        $rules = Job::getRules();
+        $rules['name'] = $rules['name'] . ',id,' . $id;
+        $rules['zip'] = $rules['zip'] . ',id,' . $id;
+        dd($this->validate($request, $rules, Job::getMessages()));
+        try {
+            $statusCode = 200;
+            $city = Job::findOrFail($id);
+            $this->validate($request, $rules, Job::getMessages());
+            $data = $request->all();
+            $data['slug'] = str_replace(' ', '-', strtolower($data['name']));
+            $city->fill($data);
+            $city->save();
+        } catch (ModelNotFoundException $e) {
+            $statusCode = 404;
+            $response = ['error' => 'Job not found'];
+        } catch (ValidationException $e) {
+            $statusCode = 400;
+            $response = ['error' => 'Validation Error', 'message' => $e->getMessage()];
+        } catch (\PDOException $e) {
+            $statusCode = 400;
+            $response = ['error' => 'Database Error', 'message' => $e->getMessage()];
+        } catch (\Exception $e) {
+            $statusCode = 500;
+            $response = ['error' => 'Internal error'];
         }
+
+        return response()->json($response, $statusCode);
     }
 
     /**
@@ -100,13 +129,20 @@ class JobsController extends JobsDocController
      * @param  $address_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($address_id): JsonResponse {
-        $user = $this->getUser();
-        $address = Address::where('user_id', $user->id)->where('id',$address_id)->first();
-        if (empty($address->id)) {
-            return response()->json(['status'=>__LINE__,'msg'=>'Address not found'], 404);
+    public function destroy($id): JsonResponse
+    {
+        try {
+            $statusCode = 200;
+            $response = 'success';
+            $city = Job::findOrFail($id);
+            $city->delete();
+        } catch (ModelNotFoundException $e) {
+            $statusCode = 404;
+            $response = ['error' => 'Job not found'];
+        } catch (\Exception $e) {
+            $statusCode = 500;
+            $response = ['error' => 'Internal error'];
         }
-        $address->delete();
-        return response()->json(['status'=>0,'msg'=>'success'], 200);
+        return response()->json($response, $statusCode);
     }
 }

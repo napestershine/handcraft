@@ -16,7 +16,6 @@ class CreateJobsTable extends Migration
         Schema::create('jobs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title', 50);
-            $table->integer('zip');
             $table->mediumText('description');
             $table->string('execution');
             $table->string('status')->default('Pending');

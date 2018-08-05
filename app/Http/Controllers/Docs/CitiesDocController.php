@@ -9,10 +9,10 @@ abstract class CitiesDocController extends BaseController
 {
     /**
      * @SWG\Get(
-     *     path="/addresses",
-     *     summary="List of all the addresses",
+     *     path="/cities",
+     *     summary="List of all the cities",
      *     tags={"Address"},
-     *     description="List of all the addresses in the database.",
+     *     description="List of all the cities in the database.",
      *     produces={"application/json"},
      *     @SWG\Response(
      *         response=200,
@@ -27,7 +27,7 @@ abstract class CitiesDocController extends BaseController
     abstract public function index();
 
     /**
-     * @SWG\Post(path="/addresses",
+     * @SWG\Post(path="/cities",
      *   tags={"Address"},
      *   summary="Creates a new address with given input array",
      *   description="Store a new address in database.",
@@ -47,7 +47,7 @@ abstract class CitiesDocController extends BaseController
 
     /**
      * @SWG\Get(
-     *     path="/addresses/{id}",
+     *     path="/cities/{id}",
      *     summary="Get Address Information",
      *     tags={"Address"},
      *     description="Get Address Information by Address ID.",
@@ -79,7 +79,7 @@ abstract class CitiesDocController extends BaseController
     abstract public function show($id);
 
     /**
-     * @SWG\Put(path="/addresses/{id}",
+     * @SWG\Put(path="/cities/{id}",
      *   tags={"Address"},
      *   summary="Updated address",
      *   description="Update Address. This can only be done by the logged in user.",
@@ -107,7 +107,7 @@ abstract class CitiesDocController extends BaseController
     abstract public function update(Request $request, $id);
 
     /**
-     * @SWG\Delete(path="/addresses/{id}",
+     * @SWG\Delete(path="/cities/{id}",
      *   tags={"Address"},
      *   summary="Delete address",
      *   description="This can only be done by the logged in user.",

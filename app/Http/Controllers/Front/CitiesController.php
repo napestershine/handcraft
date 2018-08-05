@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Http\Controllers\Docs\CategoriesDocController;
-use App\Models\Category;
+
+use App\Http\Controllers\Docs\CitiesDocController;
+use App\Models\City;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class CategoriesController extends CategoriesDocController
+class CitiesController extends CitiesDocController
 {
     /**
      * Display a listing of the resource.
@@ -20,8 +21,8 @@ class CategoriesController extends CategoriesDocController
     {
         try {
             $statusCode = 200;
-            //  $response = Category::paginate(20);
-            $response = Category::all();
+            //  $response = City::paginate(20);
+            $response = City::all();
         } catch (\Exception $e) {
             $statusCode = 500;
             $response = ['error' => 'Internal error'];
@@ -40,13 +41,13 @@ class CategoriesController extends CategoriesDocController
     {
         try {
             $statusCode = 201;
-            $category = new Category();
-            $this->validate($request, Category::getRules(), Category::getMessages());
+            $city = new City();
+            $this->validate($request, City::getRules(), City::getMessages());
             $data = $request->all();
             $data['slug'] = str_replace(' ', '-', strtolower($data['name']));
-            $category->fill($data);
-            $category->save();
-            $response = $category;
+            $city->fill($data);
+            $city->save();
+            $response = $city;
         } catch (ValidationException $e) {
             $statusCode = 400;
             $response = ['error' => 'Validation Error', 'message' => $e->getMessage()];
@@ -71,10 +72,10 @@ class CategoriesController extends CategoriesDocController
     {
         try {
             $statusCode = 200;
-            $response = Category::findOrFail($id);
+            $response = City::findOrFail($id);
         } catch (ModelNotFoundException $e) {
             $statusCode = 404;
-            $response = ['error' => 'Category not found'];
+            $response = ['error' => 'City not found'];
         } catch (\Exception $e) {
             $statusCode = 500;
             $response = ['error' => 'Internal error'];
@@ -91,22 +92,21 @@ class CategoriesController extends CategoriesDocController
      */
     public function update(Request $request, $id)
     {
-        $rules = Category::getRules();
+        $rules = City::getRules();
         $rules['name'] = $rules['name'] . ',id,' . $id;
-        $rules['uid'] = $rules['uid'] . ',id,' . $id;
-        //dd($this->validate($request, $rules, Category::getMessages()));
+        $rules['zip'] = $rules['zip'] . ',id,' . $id;
+      //  dd($this->validate($request, $rules, City::getMessages()));
         try {
             $statusCode = 200;
-            $category = Category::findOrFail($id);
-
-            $this->validate($request, $rules, Category::getMessages());
+            $city = City::findOrFail($id);
+            $this->validate($request, $rules, City::getMessages());
             $data = $request->all();
             $data['slug'] = str_replace(' ', '-', strtolower($data['name']));
-            $category->fill($data);
-            $category->save();
+            $city->fill($data);
+            $city->save();
         } catch (ModelNotFoundException $e) {
             $statusCode = 404;
-            $response = ['error' => 'Category not found'];
+            $response = ['error' => 'City not found'];
         } catch (ValidationException $e) {
             $statusCode = 400;
             $response = ['error' => 'Validation Error', 'message' => $e->getMessage()];
@@ -132,11 +132,11 @@ class CategoriesController extends CategoriesDocController
         try {
             $statusCode = 200;
             $response = 'success';
-            $category = Category::findOrFail($id);
-            $category->delete();
+            $city = City::findOrFail($id);
+            $city->delete();
         } catch (ModelNotFoundException $e) {
             $statusCode = 404;
-            $response = ['error' => 'Category not found'];
+            $response = ['error' => 'City not found'];
         } catch (\Exception $e) {
             $statusCode = 500;
             $response = ['error' => 'Internal error'];

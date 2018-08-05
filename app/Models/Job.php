@@ -35,15 +35,25 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Job extends Model
 {
-    use SoftDeletes, Validator;
+    use SoftDeletes;
+
 
     /**
-     * The attributes that are mass assignable
+     * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'user_id', 'status', 'source', 'destination', 'total', 'discount', 'pick_time'
+        'title',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'created_at', 'updated_at', 'deleted_at'
     ];
 
     /**
@@ -53,26 +63,76 @@ class Job extends Model
      */
     protected $dates = ['deleted_at'];
 
-    protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
-
     /**
      * Validation rules for user
      *
      * @var array
      */
-    protected $rules = [
-        'name' => 'bail|required|max:255',
-        'email' => 'bail|required|unique:users|max:255',
-        'password' => 'bail|required|max:255',
-        'phone' => 'required|unique:users|max:255',
+    protected static $rules = [
+        'name' => 'required|max:100|string|unique:categories',
+        'uid' => 'required|integer|unique:categories',
+        'image' => 'nullable|string|max:255',
+        'slug' => 'nullable|string|max:255',
     ];
 
     /**
-     * Get the user that owns this order.
+     * @var array
+     */
+    protected static $messages = [
+        'name.required' => 'Name is required',
+        'name.string' => 'Name must be string',
+        'name.unique' => 'Name already exists',
+        'uid.required' => 'UID is required',
+        'uid.integer' => 'UID must be string',
+        'uid.unique' => 'UID already exists',
+    ];
+
+    /**
+     * @return array
+     */
+    public static function getRules()
+    {
+        return static::$rules;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getMessages()
+    {
+        return static::$messages;
+
+    }
+
+
+
+    /**
+     * Get the User that belongs to this job.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the category that belongs to this job.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Get the city that belongs to this job.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 }

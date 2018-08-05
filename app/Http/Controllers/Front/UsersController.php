@@ -34,7 +34,7 @@ class UsersController extends UsersDocController
      * @param $id
      * @return JsonResponse
      */
-    public function getUserOrders($id): JsonResponse {
+    public function getUserJobs($id): JsonResponse {
         $user = User::find($id);
         if (empty($user)) {
             return response()->json('User not found', 404);

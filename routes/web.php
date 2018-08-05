@@ -1,7 +1,7 @@
 <?php
 
 $router->get('/', function () use ($router) {
-    return response()->json('Success', 200);
+    return response()->json('Welcome', 200);
 });
 
 $router->group(['prefix' => 'api/v1/'], function () use ($router) {

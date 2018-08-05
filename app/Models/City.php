@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class City extends Model
 {
-    use SoftDeletes, Validator;
+    use SoftDeletes;
 
 
     /**
@@ -16,7 +16,7 @@ class City extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'phone', 'email', 'password'
+        'name', 'zip', 'slug'
     ];
 
     /**
@@ -25,19 +25,7 @@ class City extends Model
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'created_at', 'updated_at', 'deleted_at'
-    ];
-
-    /**
-     * Validation rules for user
-     *
-     * @var array
-     */
-    protected $rules = [
-        'name' => 'bail|required|max:255',
-        'email' => 'bail|required|unique:users|max:255',
-        'password' => 'bail|required|max:255',
-        'phone' => 'required|unique:users|max:255',
+        'created_at', 'updated_at', 'deleted_at'
     ];
 
     /**
@@ -46,4 +34,44 @@ class City extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
+
+    /**
+     * Validation rules for user
+     *
+     * @var array
+     */
+    protected static $rules = [
+        'name' => 'required|max:100|string|unique:cities',
+        'zip' => 'required|integer|unique:cities',
+        'slug' => 'nullable|string|max:255',
+    ];
+
+    /**
+     * @var array
+     */
+    protected static $messages = [
+        'name.required' => 'Name is required',
+        'name.string' => 'Name must be string',
+        'name.unique' => 'Name already exists',
+        'zip.required' => 'Zip Code is required',
+        'zip.integer' => 'Zip Code must be string',
+        'zip.unique' => 'Zip Code already exists',
+    ];
+
+    /**
+     * @return array
+     */
+    public static function getRules()
+    {
+        return static::$rules;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getMessages()
+    {
+        return static::$messages;
+
+    }
 }
