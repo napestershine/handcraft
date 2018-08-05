@@ -95,7 +95,7 @@ class CitiesController extends CitiesDocController
         $rules = City::getRules();
         $rules['name'] = $rules['name'] . ',id,' . $id;
         $rules['zip'] = $rules['zip'] . ',id,' . $id;
-      //  dd($this->validate($request, $rules, City::getMessages()));
+
         try {
             $statusCode = 200;
             $city = City::findOrFail($id);
@@ -104,6 +104,7 @@ class CitiesController extends CitiesDocController
             $data['slug'] = str_replace(' ', '-', strtolower($data['name']));
             $city->fill($data);
             $city->save();
+            $response = $city;
         } catch (ModelNotFoundException $e) {
             $statusCode = 404;
             $response = ['error' => 'City not found'];

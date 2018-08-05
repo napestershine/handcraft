@@ -12,12 +12,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         if (\Schema::hasTable('users')) {
-            \DB::table('users')->insert([
-                'name' => 'Manu',
-                'phone' => '9876543210',
-                'email' => 'codeistalk@gmail.com',
-                'password' => app('hash')->make('secret')
-            ]);
+            factory(App\Models\User::class)->times(2)->create();
         }
     }
 }

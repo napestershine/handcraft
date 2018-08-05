@@ -11,7 +11,7 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run() {
         if (\Schema::hasTable('categories')) {
-            factory(App\Models\Category::class)->times(50)->create();
+            factory(App\Models\Category::class)->times(2)->create();
         }
     }
 }

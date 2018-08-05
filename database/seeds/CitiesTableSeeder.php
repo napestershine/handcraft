@@ -11,7 +11,7 @@ class CitiesTableSeeder extends Seeder
      */
     public function run() {
         if (\Schema::hasTable('cities')) {
-            factory(App\Models\City::class)->times(50)->create();
+            factory(App\Models\City::class)->times(2)->create();
         }
     }
 }

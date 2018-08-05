@@ -24,7 +24,7 @@ use Swagger\Annotations as SWG;
  */
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
-    use Validator, SoftDeletes, Authenticatable, Authorizable, HasApiTokens;
+    use  SoftDeletes, Authenticatable, Authorizable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -68,15 +68,18 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function orders() {
+    public function orders()
+    {
         return $this->hasMany(Job::class);
     }
+
     /**
      * Get the tokens associated with the user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function oauthAcessTokens(){
+    public function oauthAcessTokens()
+    {
         return $this->hasMany(OauthAccessToken::class);
     }
 
@@ -84,7 +87,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @param $data
      * @return array
      */
-    public function saveUser($data) {
+    public function saveUser($data)
+    {
 
         if ($this->validate($data) === true) {
             $data['password'] = app('hash')->make($data['password']);
@@ -134,14 +138,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @param $email
      * @return bool
      */
-    public static function emailExists($email) {
+    public static function emailExists($email)
+    {
 
         $user = self::where('email', $email)->first();
 
         return null !== $user;
     }
 
-    public function findForPassport($identifier) {
+    public function findForPassport($identifier)
+    {
         return $this->orWhere('email', $identifier)->orWhere('phone', $identifier)->first();
     }
 }

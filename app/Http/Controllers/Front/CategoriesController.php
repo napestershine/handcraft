@@ -104,6 +104,7 @@ class CategoriesController extends CategoriesDocController
             $data['slug'] = str_replace(' ', '-', strtolower($data['name']));
             $category->fill($data);
             $category->save();
+            $response = $category;
         } catch (ModelNotFoundException $e) {
             $statusCode = 404;
             $response = ['error' => 'Category not found'];

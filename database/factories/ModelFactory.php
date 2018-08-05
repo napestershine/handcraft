@@ -34,7 +34,7 @@ $factory->define(\App\Models\Category::class, function (Faker $faker) {
 $factory->define(\App\Models\Job::class, function (Faker $faker) {
     $statuses = ['Pending', 'Confirmed', 'In Progress', 'Completed'];
     return [
-        'title' => $faker->sentence(5),
+        'title' => $faker->sentence(2),
         'description' => $faker->paragraph(2),
         'execution' => $faker->dayOfWeek(),
         'status' => $statuses[array_rand($statuses)],
