@@ -17,12 +17,15 @@ class CitiesController extends CitiesDocController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         try {
             $statusCode = 200;
-            //  $response = City::paginate(20);
-            $response = City::all();
+            if (!empty($request->get('zip'))) {
+                $response = City::where('zip', 'like', '%' . $request->get('zip') . '%')->get();
+            } else {
+                $response = City::all();
+            }
         } catch (\Exception $e) {
             $statusCode = 500;
             $response = ['error' => 'Internal error'];
@@ -45,6 +48,7 @@ class CitiesController extends CitiesDocController
             $this->validate($request, City::getRules(), City::getMessages());
             $data = $request->all();
             $data['slug'] = str_replace(' ', '-', strtolower($data['name']));
+            City::validateZip($data['zip']);
             $city->fill($data);
             $city->save();
             $response = $city;
@@ -102,6 +106,7 @@ class CitiesController extends CitiesDocController
             $this->validate($request, $rules, City::getMessages());
             $data = $request->all();
             $data['slug'] = str_replace(' ', '-', strtolower($data['name']));
+            City::validateZip($data['zip']);
             $city->fill($data);
             $city->save();
             $response = $city;

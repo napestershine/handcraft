@@ -13,11 +13,8 @@ class CitiesTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-
         $this->city = factory(City::class)->create();
-
     }
-
 
     public function testGetAll()
     {
@@ -29,7 +26,6 @@ class CitiesTest extends TestCase
             'slug' => str_replace(' ', '-', strtolower($this->city->name))
         ]);
     }
-
 
     public function testGet()
     {
@@ -57,7 +53,6 @@ class CitiesTest extends TestCase
         ]);
     }
 
-
     public function testPut()
     {
         $this->put('/api/v1/cities/' . $this->city->id, [
@@ -83,5 +78,17 @@ class CitiesTest extends TestCase
 
         $response = $this->call('DELETE', '/api/v1/cities/5555');
         $this->assertEquals(404, $response->status());
+    }
+
+    public function testGetCityByZip()
+    {
+        $response = $this->call('GET', '/api/v1/cities?zip=' . $this->city->zip);
+        $this->assertEquals(200, $response->status());
+        $this->seeJson([
+            'id' => $this->city->id,
+            'name' => $this->city->name,
+            'zip' => $this->city->zip,
+            'slug' => str_replace(' ', '-', strtolower($this->city->name))
+        ]);
     }
 }

@@ -24,7 +24,7 @@ abstract class CitiesDocController extends BaseController
      *     )
      * )
      */
-    abstract public function index();
+    abstract public function index(Request $request);
 
     /**
      * @SWG\Post(path="/cities",
