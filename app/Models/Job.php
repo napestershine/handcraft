@@ -44,7 +44,7 @@ class Job extends Model
      * @var array
      */
     protected $fillable = [
-        'title',
+        'title', 'description', 'execution', 'status', 'user_id', 'city_id', 'category_id'
     ];
 
     /**
@@ -69,22 +69,30 @@ class Job extends Model
      * @var array
      */
     protected static $rules = [
-        'name' => 'required|max:100|string|unique:categories',
-        'uid' => 'required|integer|unique:categories',
-        'image' => 'nullable|string|max:255',
-        'slug' => 'nullable|string|max:255',
+        'title' => 'required|max:50|min:5|string',
+        'description' => 'required|string',
+        'execution' => 'required|string',
+        'status' => 'required|string|max:25',
+        'user_id' => 'required|integer',
+        'city_id' => 'required|integer',
+        'category_id' => 'required|integer'
     ];
 
     /**
      * @var array
      */
     protected static $messages = [
-        'name.required' => 'Name is required',
-        'name.string' => 'Name must be string',
-        'name.unique' => 'Name already exists',
-        'uid.required' => 'UID is required',
-        'uid.integer' => 'UID must be string',
-        'uid.unique' => 'UID already exists',
+        'title.required' => 'Title is required',
+        'title.string' => 'Title must be string',
+        'title.max' => 'Title must not more than 50 character',
+        'title.min' => 'Title must not less than 5 character',
+        'description.required' => 'Description is required',
+        'description.string' => 'Description must be string',
+        'execution.required' => 'Execution is required',
+        'execution.string' => 'Execution must be string',
+        'user_id.required' => 'Valid user is required',
+        'city_id.required' => 'City is required',
+        'category_id.required' => 'Category is required'
     ];
 
     /**
@@ -103,7 +111,6 @@ class Job extends Model
         return static::$messages;
 
     }
-
 
 
     /**

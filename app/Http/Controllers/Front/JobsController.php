@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Docs\JobsDocController;
+use App\Models\Category;
+use App\Models\City;
 use App\Models\Job;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class JobsController extends JobsDocController
 {
@@ -43,16 +47,24 @@ class JobsController extends JobsDocController
     {
         try {
             $statusCode = 201;
-            $city = new Job();
+            $job = new Job();
             $this->validate($request, Job::getRules(), Job::getMessages());
             $data = $request->all();
-            $data['slug'] = str_replace(' ', '-', strtolower($data['name']));
-            $city->fill($data);
-            $city->save();
-            $response = $city;
+            $city = City::findOrFail($data['city_id']);
+            $category = Category::findOrFail($data['category_id']);
+            $user = User::findOrFail($data['user_id']);
+            $data['city_id'] = $city->id;
+            $data['category_id'] = $category->id;
+            $data['user_id'] = $user->id;
+            $job->fill($data);
+            $job->save();
+            $response = $job;
+        } catch (ModelNotFoundException $e) {
+            $statusCode = 404;
+            $response = ['error' => 'Required field not found'];
         } catch (ValidationException $e) {
             $statusCode = 400;
-            $response = ['error' => 'Validation Error', 'message' => $e->getMessage()];
+            $response = ['error' => 'Validation Error', 'message' => $e->errors()];
         } catch (\PDOException $e) {
             $statusCode = 400;
             $response = ['error' => 'Database Error', 'message' => $e->getMessage()];
@@ -94,21 +106,24 @@ class JobsController extends JobsDocController
      */
     public function update(Request $request, $id)
     {
-        $rules = Job::getRules();
-        $rules['name'] = $rules['name'] . ',id,' . $id;
-        $rules['zip'] = $rules['zip'] . ',id,' . $id;
-        dd($this->validate($request, $rules, Job::getMessages()));
         try {
             $statusCode = 200;
-            $city = Job::findOrFail($id);
-            $this->validate($request, $rules, Job::getMessages());
+            $job = Job::findOrFail($id);
+            $this->validate($request, Job::getRules(), Job::getMessages());
             $data = $request->all();
-            $data['slug'] = str_replace(' ', '-', strtolower($data['name']));
-            $city->fill($data);
-            $city->save();
+
+            $city = City::findOrFail($data['city_id']);
+            $category = Category::findOrFail($data['category_id']);
+            $user = User::findOrFail($data['user_id']);
+            $data['city_id'] = $city->id;
+            $data['category_id'] = $category->id;
+            $data['user_id'] = $user->id;
+            $job->fill($data);
+            $job->save();
+            $response = $job;
         } catch (ModelNotFoundException $e) {
             $statusCode = 404;
-            $response = ['error' => 'Job not found'];
+            $response = ['error' => 'Resource not found'];
         } catch (ValidationException $e) {
             $statusCode = 400;
             $response = ['error' => 'Validation Error', 'message' => $e->getMessage()];
@@ -134,8 +149,8 @@ class JobsController extends JobsDocController
         try {
             $statusCode = 200;
             $response = 'success';
-            $city = Job::findOrFail($id);
-            $city->delete();
+            $job = Job::findOrFail($id);
+            $job->delete();
         } catch (ModelNotFoundException $e) {
             $statusCode = 404;
             $response = ['error' => 'Job not found'];

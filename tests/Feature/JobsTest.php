@@ -2,7 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Category;
+use App\Models\City;
 use App\Models\Job;
+use App\Models\User;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use TestCase;
 
@@ -52,32 +55,49 @@ class JobsTest extends TestCase
         $this->assertEquals(404, $response->status());
     }
 
-   /* public function testPost()
+    public function testPost()
     {
+        $city = factory(City::class)->create();
+        $category = factory(Category::class)->create();
+        $user = factory(User::class)->create();
+
         $this->post('/api/v1/jobs', [
-            'name' => 'Sonstige Umzugsleistungen',
-            'uid' => 804040,
-            'image' => 'http://gofooddy.com/wp-content/uploads/2017/07/logo0.jpg'
+            'title' => 'Sonstige Umzugsleistungen',
+            'description' => 'this is description',
+            'execution' => 'contemporary',
+            'status' => 'Pending',
+            'user_id' => $user->id,
+            'city_id' => $city->id,
+            'category_id' => $category->id,
         ])->seeJson([
-            'name' => 'Sonstige Umzugsleistungen',
-            'uid' => 804040,
-            'slug' => str_replace(' ', '-', strtolower('Sonstige Umzugsleistungen')),
-            'image' => 'http://gofooddy.com/wp-content/uploads/2017/07/logo0.jpg'
+            'title' => 'Sonstige Umzugsleistungen',
+            'description' => 'this is description',
+            'execution' => 'contemporary',
+            'status' => 'Pending',
+            'user_id' => $user->id,
+            'city_id' => $city->id,
+            'category_id' => $category->id,
         ]);
     }
-
 
     public function testPut()
     {
         $this->put('/api/v1/jobs/' . $this->job->id, [
-            'name' => 'HP Computer',
-            'uid' => $this->job->uid,
-            'image' => $this->job->image,
+            'title' => 'this is new title',
+            'description' => $this->job->description,
+            'execution' => $this->job->execution,
+            'status' => $this->job->status,
+            'user_id' => $this->job->user_id,
+            'city_id' => $this->job->city_id,
+            'category_id' => $this->job->category_id
         ])->seeJson([
-            'name' => 'HP Computer',
-            'slug' => str_replace(' ', '-', strtolower('HP Computer')),
-            'uid' => $this->job->uid,
-            'image' => $this->job->image,
+            'title' => 'this is new title',
+            'description' => $this->job->description,
+            'execution' => $this->job->execution,
+            'status' => $this->job->status,
+            'user_id' => $this->job->user_id,
+            'city_id' => $this->job->city_id,
+            'category_id' => $this->job->category_id
         ]);
 
         $response = $this->call('PUT', '/api/v1/jobs/5555');
@@ -94,5 +114,5 @@ class JobsTest extends TestCase
 
         $response = $this->call('DELETE', '/api/v1/jobs/5555');
         $this->assertEquals(404, $response->status());
-    }*/
+    }
 }
