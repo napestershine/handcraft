@@ -50,7 +50,7 @@ class CitiesController extends CitiesDocController
             $response = $city;
         } catch (ValidationException $e) {
             $statusCode = 400;
-            $response = ['error' => 'Validation Error', 'message' => $e->getMessage()];
+            $response = ['error' => 'Validation Error', 'message' => $e->errors()];
         } catch (\PDOException $e) {
             $statusCode = 400;
             $response = ['error' => 'Database Error', 'message' => $e->getMessage()];
@@ -110,7 +110,7 @@ class CitiesController extends CitiesDocController
             $response = ['error' => 'City not found'];
         } catch (ValidationException $e) {
             $statusCode = 400;
-            $response = ['error' => 'Validation Error', 'message' => $e->getMessage()];
+            $response = ['error' => 'Validation Error', 'message' => $e->errors()];
         } catch (\PDOException $e) {
             $statusCode = 400;
             $response = ['error' => 'Database Error', 'message' => $e->getMessage()];

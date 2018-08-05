@@ -11,7 +11,7 @@ class JobsTableSeeder extends Seeder
      */
     public function run() {
         if (\Schema::hasTable('jobs')) {
-            factory(App\Models\Job::class)->times(50)->create();
+            factory(App\Models\Job::class)->times(2)->create();
         }
     }
 }

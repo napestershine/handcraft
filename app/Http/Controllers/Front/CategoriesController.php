@@ -49,7 +49,7 @@ class CategoriesController extends CategoriesDocController
             $response = $category;
         } catch (ValidationException $e) {
             $statusCode = 400;
-            $response = ['error' => 'Validation Error', 'message' => $e->getMessage()];
+            $response = ['error' => 'Validation Error', 'message' => $e->errors()];
         } catch (\PDOException $e) {
             $statusCode = 400;
             $response = ['error' => 'Database Error', 'message' => $e->getMessage()];
@@ -94,7 +94,7 @@ class CategoriesController extends CategoriesDocController
         $rules = Category::getRules();
         $rules['name'] = $rules['name'] . ',id,' . $id;
         $rules['uid'] = $rules['uid'] . ',id,' . $id;
-        //dd($this->validate($request, $rules, Category::getMessages()));
+
         try {
             $statusCode = 200;
             $category = Category::findOrFail($id);
@@ -110,7 +110,7 @@ class CategoriesController extends CategoriesDocController
             $response = ['error' => 'Category not found'];
         } catch (ValidationException $e) {
             $statusCode = 400;
-            $response = ['error' => 'Validation Error', 'message' => $e->getMessage()];
+            $response = ['error' => 'Validation Error', 'message' => $e->errors()];
         } catch (\PDOException $e) {
             $statusCode = 400;
             $response = ['error' => 'Database Error', 'message' => $e->getMessage()];

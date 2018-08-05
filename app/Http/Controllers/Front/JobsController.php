@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Docs\JobsDocController;
 use App\Models\Job;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -29,7 +30,6 @@ class JobsController extends JobsDocController
             $statusCode = 500;
             $response = ['error' => 'Internal error'];
         }
-
         return response()->json($response, $statusCode);
     }
 
