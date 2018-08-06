@@ -5,6 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Class Category
+ * @package App\Models
+ *
+ * @SWG\Definition(type="object", @SWG\Xml(name="Category"), required={"name","uid"})
+ *
+ * @SWG\Property(type="string", property="name", description="The name of the Category.")
+ * @SWG\Property(type="integer", property="uid", description="The uid identifier for the Category.")
+ * @SWG\Property(type="string", property="slug", description="The slug to show in urls for SEO purpose.")
+ * @SWG\Property(type="string", property="image", description="The image logo of the Category.")
+ *
+ */
 class Category extends Model
 {
     use SoftDeletes;
@@ -43,7 +55,7 @@ class Category extends Model
     protected static $rules = [
         'name' => 'required|max:100|string|unique:categories',
         'uid' => 'required|integer|unique:categories',
-        'image' => 'nullable|string|max:255',
+        'image' => 'nullable|string|url|max:255',
         'slug' => 'nullable|string|max:255',
     ];
 

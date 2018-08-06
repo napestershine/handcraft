@@ -37,6 +37,8 @@ $router->group(['prefix' => 'api/v1/'], function () use ($router) {
 
         $router->get('/user', 'UsersController@show');
 
+        $router->post('/upload', 'UploadsController@fileUpload');
+
         //$router->post('logout','UsersController@logout');
     });
     // });

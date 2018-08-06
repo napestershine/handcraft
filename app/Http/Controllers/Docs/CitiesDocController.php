@@ -11,7 +11,7 @@ abstract class CitiesDocController extends BaseController
      * @SWG\Get(
      *     path="/cities",
      *     summary="List of all the cities",
-     *     tags={"Address"},
+     *     tags={"City"},
      *     description="List of all the cities in the database.",
      *     produces={"application/json"},
      *     @SWG\Response(
@@ -28,17 +28,17 @@ abstract class CitiesDocController extends BaseController
 
     /**
      * @SWG\Post(path="/cities",
-     *   tags={"Address"},
-     *   summary="Creates a new address with given input array",
-     *   description="Store a new address in database.",
-     *   operationId="createAddress",
+     *   tags={"City"},
+     *   summary="Creates a new city with given input array",
+     *   description="Store a new city in database.",
+     *   operationId="createCity",
      *   produces={"application/json"},
      *   @SWG\Parameter(
      *     in="body",
      *     name="body",
-     *     description="Address object",
+     *     description="City object",
      *     required=true,
-     *     @SWG\Schema(ref="#/definitions/Address")
+     *     @SWG\Schema(ref="#/definitions/City")
      *   ),
      *   @SWG\Response(response="200", description="successful operation")
      * )
@@ -48,15 +48,15 @@ abstract class CitiesDocController extends BaseController
     /**
      * @SWG\Get(
      *     path="/cities/{id}",
-     *     summary="Get Address Information",
-     *     tags={"Address"},
-     *     description="Get Address Information by Address ID.",
+     *     summary="Get City Information",
+     *     tags={"City"},
+     *     description="Get City Information by City ID.",
      *     operationId="id",
      *     produces={"application/json"},
      *     @SWG\Parameter(
      *         name="id",
      *         in="path",
-     *         description="Address ID",
+     *         description="City ID",
      *         required=true,
      *         type="integer",
      *         format="int64"
@@ -64,7 +64,7 @@ abstract class CitiesDocController extends BaseController
      *     @SWG\Response(
      *         response=200,
      *         description="successful operation",
-     *         @SWG\Schema(ref="#/definitions/Address"),
+     *         @SWG\Schema(ref="#/definitions/City"),
      *     ),
      *     @SWG\Response(
      *         response="400",
@@ -72,7 +72,7 @@ abstract class CitiesDocController extends BaseController
      *     ),
      *     @SWG\Response(
      *         response="404",
-     *         description="Address Not Found",
+     *         description="City Not Found",
      *     )
      * )
      */
@@ -80,15 +80,15 @@ abstract class CitiesDocController extends BaseController
 
     /**
      * @SWG\Put(path="/cities/{id}",
-     *   tags={"Address"},
-     *   summary="Updated address",
-     *   description="Update Address. This can only be done by the logged in user.",
-     *   operationId="updateAddress",
+     *   tags={"City"},
+     *   summary="Updated city",
+     *   description="Update City. This can only be done by the logged in user.",
+     *   operationId="updateCity",
      *   produces={"application/json"},
      *   @SWG\Parameter(
      *     name="id",
      *     in="path",
-     *     description="the Address ID that need to be updated",
+     *     description="the City ID that need to be updated",
      *     required=true,
      *     type="integer",
      *     format="int64"
@@ -96,33 +96,33 @@ abstract class CitiesDocController extends BaseController
      *   @SWG\Parameter(
      *     in="body",
      *     name="body",
-     *     description="Updated address object",
+     *     description="Updated city object",
      *     required=true,
-     *     @SWG\Schema(ref="#/definitions/Address")
+     *     @SWG\Schema(ref="#/definitions/City")
      *   ),
-     *   @SWG\Response(response=400, description="Invalid Address ID supplied"),
-     *   @SWG\Response(response=404, description="Address not found")
+     *   @SWG\Response(response=400, description="Invalid City ID supplied"),
+     *   @SWG\Response(response=404, description="City not found")
      * )
      */
     abstract public function update(Request $request, $id);
 
     /**
      * @SWG\Delete(path="/cities/{id}",
-     *   tags={"Address"},
-     *   summary="Delete address",
+     *   tags={"City"},
+     *   summary="Delete city",
      *   description="This can only be done by the logged in user.",
-     *   operationId="deleteAddress",
+     *   operationId="deleteCity",
      *   produces={"application/json"},
      *   @SWG\Parameter(
      *     name="id",
      *     in="path",
-     *     description="The Address ID that needs to be deleted",
+     *     description="The City ID that needs to be deleted",
      *     required=true,
      *     type="integer",
      *     format="int64"
      *   ),
-     *   @SWG\Response(response=400, description="Invalid Address ID supplied"),
-     *   @SWG\Response(response=404, description="Address not found")
+     *   @SWG\Response(response=400, description="Invalid City ID supplied"),
+     *   @SWG\Response(response=404, description="City not found")
      * )
      */
     abstract public function destroy($id);

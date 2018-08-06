@@ -3,18 +3,26 @@
 namespace Tests\Unit;
 
 use App\Models\City;
+use Illuminate\Validation\ValidationException;
 use TestCase;
 
 class CityTest extends TestCase
 {
+    protected $instance;
 
-    public function testGermanZipCode()
+    public function setUp()
     {
-        $zip = 10115;
-        $this->assertTrue(City::validateZip($zip));
+        $this->city = new City();
+    }
 
-        /*$zip = 'abc';
+    public function testSetValueRefusesBadInput()
+    {
+        $this->assertTrue($this->city->validateZip(10115));
+    }
 
-        $this->assertNotSame(true, City::validateZip($zip));*/
+    public function testSetValueAcceptsRightInput()
+    {
+        $this->expectException(ValidationException::class);
+        $this->city->validateZip('baz');
     }
 }

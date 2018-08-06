@@ -4,10 +4,10 @@
  * @SWG\Swagger(
  *     schemes={"http"},
  *     host=SWAGGER_LUME_CONST_HOST,
- *     basePath="/api/v1/web",
+ *     basePath="/api/v1/",
  *     @SWG\Info(
  *         version="1.0.0",
- *         title="Food API",
+ *         title="Handcraft API",
  *         description="This lists all the api for the front end UI",
  *         @SWG\Contact(
  *             email="codeistalk@gmail.com"

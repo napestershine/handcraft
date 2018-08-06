@@ -5,7 +5,7 @@ Homestead.yaml
 .env
 /storage/oauth-private.key
 /storage/oauth-public.key
-/public/upload
+/public/upload/
 /.phpstorm.meta.php
 /_ide_helper.php
 /config/api.php

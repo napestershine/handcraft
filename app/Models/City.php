@@ -5,6 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Class City
+ * @package App\Models
+ *
+ * @SWG\Definition(type="object", @SWG\Xml(name="City"), required={"name","zip"})
+ *
+ * @SWG\Property(type="string", property="name", description="The name of the City.")
+ * @SWG\Property(type="integer", property="zip", description="The zip code of the City.")
+ * @SWG\Property(type="string", property="slug", description="The slug to show in urls for SEO purpose.")
+ *
+ */
 class City extends Model
 {
     use SoftDeletes;
@@ -73,20 +84,5 @@ class City extends Model
     {
         return static::$messages;
 
-    }
-
-    /**
-     * @param $zip
-     * @return bool
-     * @throws \Exception
-     */
-    public static function validateZip($zip)
-    {
-        $ZIPREG = "\b((?:0[1-46-9]\d{3})|(?:[1-357-9]\d{4})|(?:[4][0-24-9]\d{3})|(?:[6][013-9]\d{3}))\b";
-
-        if (!preg_match("/" . $ZIPREG . "/i", $zip)) {
-            throw new \Exception('Zip code is invalid!');
-        }
-        return true;
     }
 }

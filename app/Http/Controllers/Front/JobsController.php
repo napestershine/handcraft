@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\City;
 use App\Models\Job;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -24,12 +25,31 @@ class JobsController extends JobsDocController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         try {
             $statusCode = 200;
-            //  $response = Job::paginate(20);
-            $response = Job::all();
+
+            // get instance of Eloquent
+            $builder = Job::query();
+
+            // filter by category
+            if ($request->get('category_id')) {
+                $builder->where('category_id', 'LIKE', $request->get('category_id'));
+            }
+
+            // filter by region/ city
+            if ($request->get('city_id')) {
+                $builder->where('city_id', 'LIKE', $request->get('city_id'));
+            }
+
+            if (!empty(\Auth::guard()->user())) {
+                $builder->where('user_id', '!=', $this->getUser()->id);
+            }
+
+            $builder->where('created_at', '>=', Carbon::today()->subDays(30));
+
+            $response = $builder->orderBy('created_at', 'desc')->paginate(5);
         } catch (\Exception $e) {
             $statusCode = 500;
             $response = ['error' => 'Internal error'];

@@ -6,32 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Order
+ * Class Job
+ * @package App\Models
  *
- * @SWG\Definition(type="object", @SWG\Xml(name="Order"), required={"user_id","status","source", "destination"})
+ * @SWG\Definition(type="object", @SWG\Xml(name="Job"), required={"title","description","execution","user_id","category_id","city_id"})
  *
- * @SWG\Property(type="integer", property="user_id", description="The user identifier for the order.")
- * @SWG\Property(type="string", property="status", description="The status identifier for the order.")
- * @SWG\Property(type="string", property="source", description="The source identifier for the order.")
- * @SWG\Property(type="string", property="destination", description="The destination on the order.")
- * @SWG\Property(type="string", property="pick_time", description="The pick time on the order.")
- * @SWG\Property(type="string", property="discount", description="The discount on the order.")
- * @SWG\Property(type="string", property="total", description="The total amount of the order.")
+ * @SWG\Property(type="string", property="title", description="The name of the Job.")
+ * @SWG\Property(type="string", property="description", description="The description of the Job.")
+ * @SWG\Property(type="string", property="execution", description="The execution of the Job.")
+ * @SWG\Property(type="string", property="status", description="The status of the Job.")
+ * @SWG\Property(type="integer", property="user_id", description="The user identifier for the job.")
+ * @SWG\Property(type="integer", property="category_id", description="The category identifier for the job.")
+ * @SWG\Property(type="integer", property="city_id", description="The city identifier for the job.")
  *
- * @mixin \Eloquent
- * @property int $id
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Job whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Job whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Job whereUpdatedAt($value)
- * @property \Carbon\Carbon|null $deleted_at
- * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Job onlyTrashed()
- * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Job whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Job withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Job withoutTrashed()
+ *
  */
 class Job extends Model
 {

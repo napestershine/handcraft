@@ -11,10 +11,11 @@ use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Swagger\Annotations as SWG;
 
-
 /**
- * @SWG\Definition(type="object", @SWG\Xml(name="User"),
- *     required={"name","email","password","phone",})
+ * Class User
+ * @package App\Models
+ *
+ * @SWG\Definition(type="object", @SWG\Xml(name="User"), required={"name","email","password","phone",})
  *
  * @SWG\Property(type="string", property="name", description="The name of the user.")
  * @SWG\Property(type="string", property="phone", description="The contact phone of the user.")

@@ -48,7 +48,7 @@ class CitiesController extends CitiesDocController
             $this->validate($request, City::getRules(), City::getMessages());
             $data = $request->all();
             $data['slug'] = str_replace(' ', '-', strtolower($data['name']));
-            City::validateZip($data['zip']);
+            $city->validateZip($data['zip']);
             $city->fill($data);
             $city->save();
             $response = $city;
@@ -106,7 +106,7 @@ class CitiesController extends CitiesDocController
             $this->validate($request, $rules, City::getMessages());
             $data = $request->all();
             $data['slug'] = str_replace(' ', '-', strtolower($data['name']));
-            City::validateZip($data['zip']);
+            $city->validateZip($data['zip']);
             $city->fill($data);
             $city->save();
             $response = $city;

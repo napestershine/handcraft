@@ -98,6 +98,7 @@ $app->register(\SwaggerLume\ServiceProvider::class);
 $app->register(Laravel\Passport\PassportServiceProvider::class);
 $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 $app->register(Barryvdh\Cors\ServiceProvider::class);
+$app->register(Intervention\Image\ImageServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
