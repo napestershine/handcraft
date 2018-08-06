@@ -611,6 +611,36 @@
                     }
                 }
             }
+        },
+        "/upload": {
+            "post": {
+                "tags": [
+                    "Image Upload"
+                ],
+                "summary": "Uploads a new image in server date wise",
+                "description": "Store a new image in public directory.",
+                "operationId": "uploadImage",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "file",
+                        "in": "formData",
+                        "description": "image file to upload",
+                        "required": true,
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
         }
     },
     "definitions": {
