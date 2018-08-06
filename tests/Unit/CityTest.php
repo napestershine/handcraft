@@ -19,10 +19,4 @@ class CityTest extends TestCase
     {
         $this->assertTrue($this->city->validateZip(10115));
     }
-
-    public function testSetValueAcceptsRightInput()
-    {
-        $this->expectException(ValidationException::class);
-        $this->city->validateZip('baz');
-    }
 }

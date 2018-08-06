@@ -49,11 +49,12 @@ class JobsController extends JobsDocController
 
             $builder->where('created_at', '>=', Carbon::today()->subDays(30));
 
-            $response = $builder->orderBy('created_at', 'desc')->paginate(5);
+            $response = $builder->orderBy('created_at', 'desc')->get();
         } catch (\Exception $e) {
             $statusCode = 500;
             $response = ['error' => 'Internal error'];
         }
+
         return response()->json($response, $statusCode);
     }
 

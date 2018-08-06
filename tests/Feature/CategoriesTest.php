@@ -8,7 +8,7 @@ use TestCase;
 
 class CategoriesTest extends TestCase
 {
-    use DatabaseMigrations;
+   use DatabaseMigrations;
 
     public function setUp()
     {

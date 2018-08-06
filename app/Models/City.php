@@ -85,4 +85,19 @@ class City extends Model
         return static::$messages;
 
     }
+
+    /**
+     * @param $zip
+     * @return bool
+     * @throws \Exception
+     */
+    public function validateZip($zip)
+    {
+        $ZIPREG = "\b((?:0[1-46-9]\d{3})|(?:[1-357-9]\d{4})|(?:[4][0-24-9]\d{3})|(?:[6][013-9]\d{3}))\b";
+
+        if (!preg_match("/" . $ZIPREG . "/i", $zip)) {
+            throw new \Exception('Zip code is invalid!');
+        }
+        return true;
+    }
 }

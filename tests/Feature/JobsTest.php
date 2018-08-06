@@ -11,14 +11,13 @@ use TestCase;
 
 class JobsTest extends TestCase
 {
-    use DatabaseMigrations;
+  use DatabaseMigrations;
 
     public function setUp()
     {
         parent::setUp();
 
         $this->job = factory(Job::class)->create();
-
     }
 
     public function testGetAll()

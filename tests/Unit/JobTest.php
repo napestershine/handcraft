@@ -16,7 +16,6 @@ class JobTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-
         $this->job = factory(Job::class)->create();
     }
     public function testBelongsToAUser()

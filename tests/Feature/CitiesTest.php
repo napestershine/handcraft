@@ -13,6 +13,7 @@ class CitiesTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+
         $this->city = factory(City::class)->create();
     }
 
@@ -45,10 +46,10 @@ class CitiesTest extends TestCase
     {
         $this->post('/api/v1/cities', [
             'name' => 'Sonstige Umzugsleistungen',
-            'zip' => 804040
+            'zip' => 80404
         ])->seeJson([
             'name' => 'Sonstige Umzugsleistungen',
-            'zip' => 804040,
+            'zip' => 80404,
             'slug' => str_replace(' ', '-', strtolower('Sonstige Umzugsleistungen'))
         ]);
     }
