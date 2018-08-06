@@ -55,7 +55,7 @@ class Category extends Model
     protected static $rules = [
         'name' => 'required|max:100|string|unique:categories',
         'uid' => 'required|integer|unique:categories',
-        'image' => 'nullable|string|url|max:255',
+        'image' => 'nullable|string|max:255',
         'slug' => 'nullable|string|max:255',
     ];
 
